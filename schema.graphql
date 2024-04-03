@@ -1,0 +1,39 @@
+type Raffle @entity {
+  id: Bytes!
+  address: Bytes!
+  raffleFactory: RaffleFactory
+  mint: [Mint!] @derivedFrom (field: "raffleId")
+  winner: [Winner!] @derivedFrom (field: "raffleId")
+  pickWinner: [PickWinner!] @derivedFrom (field: "raffleId")
+}
+
+type RaffleFactory @entity {
+  id: ID!
+  raffles: [Raffle!] @derivedFrom (field: "raffleFactory")
+}
+
+type Mint @entity {
+  id: ID!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  raffleId: Raffle!
+  amount: BigInt!
+  tokenHolder: Bytes!
+}
+
+type Winner @entity {
+  id: ID!
+  blockNumber: BigInt!
+  raffleId: Raffle!
+  amount: BigInt!
+  buyer: Bytes!
+  timestamp: BigInt!
+  tokenAddress: Bytes!
+}
+
+type PickWinner @entity {
+  id: ID!
+  raffleId: Raffle!
+  address: Bytes!
+  blockNumber: BigInt!
+}
